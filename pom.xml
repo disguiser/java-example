@@ -12,6 +12,7 @@
         <module>basic</module>
         <module>poi</module>
         <module>jwt</module>
+        <module>spring</module>
     </modules>
 
     <properties>

@@ -7,7 +7,8 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
-import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class JavaJwt {
     static String secret = "8677df7fc3a34e26a61c034d5ec8245d";
@@ -34,19 +35,23 @@ public class JavaJwt {
             System.out.println(decodedJWT.getExpiresAt());
         } catch (JWTVerificationException exception){
             // Invalid signature/claims
+            throw exception;
         }
     }
     public static String createToken() {
         String token = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             token = JWT.create()
                     .withSubject("{a:1}")
-                    .withExpiresAt(new Date())
+                    .withExpiresAt(sdf.parse("2023-02-01"))
                     .withIssuer(issuer)
                     .sign(algorithm);
         } catch (JWTCreationException exception){
-
+            throw exception;
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
         return token;
     }
