@@ -1,10 +1,9 @@
 package org.example;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
+
 import java.security.Key;
 
 public class Jjwt {
@@ -16,20 +15,25 @@ public class Jjwt {
         try {
             byte[] encodedKey = secret.getBytes();
             Key key = Keys.hmacShaKeyFor(encodedKey);
-            Claims claims = Jwts.parser()
+            Claims claims = Jwts.parserBuilder()
                     .setSigningKey(key)
+                    .build()
                     .parseClaimsJws(token)
                     .getBody();
             System.out.println(claims.getSubject());
             System.out.println(claims.getExpiration());
+        } catch (SignatureException e) {
+            System.out.println("Invalid JWT signature.");
+        } catch (MalformedJwtException e) {
+            System.out.println("Invalid JWT token.");
         } catch (ExpiredJwtException e) {
-            System.out.println(402);
-            throw e;
-        } catch (JwtException e) {
-            System.out.println(403);
-            throw e;
+            System.out.println("Expired JWT token.");
+        } catch (UnsupportedJwtException e) {
+            System.out.println("Unsupported JWT token.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("JWT token compact of handler are invalid.");
         } catch (Exception e) {
-            throw e;
+            e.printStackTrace();
         }
     }
 }
