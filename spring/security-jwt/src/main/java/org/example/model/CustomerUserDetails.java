@@ -15,10 +15,9 @@ public class CustomerUserDetails extends User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        List<GrantedAuthority> authorities = new ArrayList<>();
-//        this.roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
-//        return authorities;
-        return List.of();
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        this.roles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role)));
+        return authorities;
     }
 
     @Override

@@ -32,9 +32,10 @@ public class SecurityConfig {
                 // CSRF禁用，因为不使用session
                 .csrf().disable()
                 // 禁用HTTP响应标头
-//                .headers().cacheControl().disable().and()
+                .headers().cacheControl().disable().and()
                 // 认证失败处理类
-                .exceptionHandling().authenticationEntryPoint(((request, response, authException) -> {
+                .exceptionHandling()
+                .authenticationEntryPoint(((request, response, authException) -> {
 //                    System.out.println("==================");
 //                    System.out.println(authException);
 //                    System.out.println("==================");
@@ -59,7 +60,7 @@ public class SecurityConfig {
                 // 过滤请求
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/user/login", "/user/register").permitAll()
-//                        .requestMatchers("/hello/admin").hasRole("User")
+                        .requestMatchers("/hello/admin").hasRole("Admin")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -94,12 +95,12 @@ public class SecurityConfig {
      * Role: @PreAuthorize(“hasRole('BOOK_ADMIN')”)
      * 为了更明确地区分这两个术语，Spring Security 框架ROLE_默认为角色名称添加前缀。因此，它不会检查名为 的角色BOOK_ADMIN，而是检查ROLE_BOOK_ADMIN.
      *
-     * 就个人而言，我发现这种行为令人困惑，并且更愿意在我的应用程序中禁用它。它可以在 Spring Security 配置中禁用，如下所示：
+     * 自定义前缀
      * @return
      */
     @Bean
-    GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults("ROLE_");
     }
 //    @Bean
 //    public AuthenticationFailureHandler authenticationFailureHandler() {

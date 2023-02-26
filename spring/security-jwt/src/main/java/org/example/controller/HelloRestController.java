@@ -16,7 +16,7 @@ public class HelloRestController {
         return "Hello User";
     }
 
-    @PreAuthorize("hasRole('User')")
+//    @PreAuthorize("hasRole('Admin')")
     @GetMapping("admin")
     public String helloAdmin() {
         return "Hello Admin";

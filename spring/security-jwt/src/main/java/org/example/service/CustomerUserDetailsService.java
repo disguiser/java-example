@@ -12,7 +12,10 @@ import java.util.List;
 public class CustomerUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        CustomerUserDetails user = new CustomerUserDetails("user", "password", List.of("Admin"));
-        return user;
+        if ("user".equals(username)) {
+            return new CustomerUserDetails("user", "password", List.of("User"));
+        } else {
+            return new CustomerUserDetails("admin", "password", List.of("Admin"));
+        }
     }
 }

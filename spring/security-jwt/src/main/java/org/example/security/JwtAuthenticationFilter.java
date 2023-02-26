@@ -34,7 +34,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        String responseText = null;
         if (!isEmpty(header) && header.startsWith("Bearer ")) {
             final String token = header.split(" ")[1].trim();
             if (!isEmpty(token)) {
@@ -45,18 +44,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     UserDetails userDetails = customerUserDetailsService.loadUserByUsername(username);
                     if (userDetails != null) {
                         UsernamePasswordAuthenticationToken authentication =
-                                new UsernamePasswordAuthenticationToken(userDetails.getUsername() ,null , userDetails.getAuthorities());
+                                new UsernamePasswordAuthenticationToken(userDetails ,null , userDetails.getAuthorities());
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
                     filterChain.doFilter(request,response);
                     return;
                 } else {
-                    responseText = checkResult.getErrMsg();
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.getWriter().print(checkResult.getErrMsg());
                 }
             }
         }
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().print(responseText!=null ? responseText : "invalid jwt token");
         filterChain.doFilter(request,response);
     }
 }
