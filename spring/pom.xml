@@ -44,5 +44,39 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <version>${spring}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+
+        <!-- SLF4J Provider -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.projectreactor</groupId>-->
+<!--            <artifactId>reactor-test</artifactId>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
     </dependencies>
 </project>
